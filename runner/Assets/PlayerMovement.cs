@@ -12,14 +12,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int jumpAmount = 0;
     [SerializeField] private int jumpMax = 2;
 
+    [SerializeField] private Transform GFX;
+
     private PlayerControls playerControls;
     private InputAction jumpAction;
     private InputAction crouchAction;
 
+    private bool canFly = true;
     private bool isGrounded;
-    private bool isJumping;
+    [SerializeField] private bool isJumping;
     private float jumpTimer;
-    private bool jumpPressed;
+    private bool jumpPressed, crouchPressed;
+
+    private float crouchHeight = 0.7f;
 
     private void Awake()
     {
@@ -45,7 +50,9 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, groundDistance, groundLayer);
         jumpPressed = jumpAction.ReadValue<float>() > 0.1f;
+        crouchPressed = crouchAction.ReadValue<float>() > 0.1f;
 
+        //[JUMPING]
         //jump counter
         if (jumpAction.triggered && isJumping)
         {
@@ -58,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             jumpTimer = 0f;
             rb.velocity = Vector2.up * jumpForce;
         }
-        else if (isJumping && jumpPressed && jumpTimer < jumpTime) //flies if [jump] is held
+        else if (isJumping && jumpPressed && jumpTimer < jumpTime && canFly) //flies if [jump] is held
         {
             rb.velocity = Vector2.up * jumpForce;
             jumpTimer += Time.deltaTime;
@@ -68,7 +75,31 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
             jumpAmount = 0;
         }
+        else if (isGrounded)
+        {
+            isJumping = false;
+        }
 
+        //[CROUCHING]
+        if (crouchPressed)
+        {
+            GFX.localScale = new Vector3(GFX.localScale.x, crouchHeight, GFX.localScale.z);
 
+            if (crouchAction.triggered) //only when pressed and not held
+            {
+                rb.velocity = Vector2.down * jumpForce * 3;
+            }
+            if (isJumping && isGrounded)
+            {
+                GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+                canFly = false;
+                rb.velocity = Vector2.up * jumpForce;
+            }
+        }
+        if(!crouchPressed)
+        {
+            canFly = true;
+            GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+        }
     }
 }
