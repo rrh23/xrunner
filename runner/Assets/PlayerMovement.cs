@@ -4,13 +4,13 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float jumpForce = 10f;
+    [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform feetPos;
-    [SerializeField] private float groundDistance = 0.25f;
-    [SerializeField] private float jumpTime = 0.3f;
-    [SerializeField] private int jumpAmount = 0;
-    [SerializeField] private int jumpMax = 2;
+    [SerializeField] private float groundDistance;
+    [SerializeField] private float jumpStrength;
+    [SerializeField] private int jumpAmount;
+    [SerializeField] private int jumpMax;
 
     [SerializeField] private Transform GFX;
 
@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canFly = true;
     private bool isGrounded;
     [SerializeField] private bool isJumping;
-    private float jumpTimer;
+    private float jumpTimer, jumpTime;
     private bool jumpPressed, crouchPressed;
 
     private float crouchHeight = 0.7f;
@@ -54,9 +54,9 @@ public class PlayerMovement : MonoBehaviour
 
         //[JUMPING]
         //jump counter
-        if (jumpAction.triggered && isJumping)
+        if (jumpAction.triggered && jumpAmount < jumpMax)
         {
-            jumpAmount += 1;
+            jumpAmount++;
         }
 
         if (isGrounded && jumpPressed && !isJumping) //onground and [jump] pressed
@@ -64,20 +64,30 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             jumpTimer = 0f;
             rb.velocity = Vector2.up * jumpForce;
+
+            jumpTime = jumpStrength; //initialize jumptime
+
+            //if (jumpAmount > 0)
+            //{
+            //    jumpTime += 1f;
+            //}
         }
         else if (isJumping && jumpPressed && jumpTimer < jumpTime && canFly) //flies if [jump] is held
         {
             rb.velocity = Vector2.up * jumpForce;
             jumpTimer += Time.deltaTime;
         }
-        else if (!jumpPressed && jumpTimer >= jumpTime || jumpAmount >= jumpMax) //stops flying
+        else if (!jumpPressed && jumpTimer >= jumpTime && jumpAmount >= jumpMax) //stops flying
         {
             isJumping = false;
             jumpAmount = 0;
         }
-        else if (isGrounded)
+        else if (isGrounded) //resets params if hit ground
         {
             isJumping = false;
+            jumpAmount = 0;
+            isJumping = false;
+            canFly = true;
         }
 
         //[CROUCHING]
@@ -88,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
             if (crouchAction.triggered) //only when pressed and not held
             {
                 rb.velocity = Vector2.down * jumpForce * 3;
+                jumpTimer = 0f;
             }
             if (isJumping && isGrounded)
             {
