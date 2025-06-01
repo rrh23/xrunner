@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8463677086363960763}
   - component: {fileID: 7173311179238195449}
-  - component: {fileID: 2366426691010350773}
+  - component: {fileID: 3878944784801085243}
   m_Layer: 6
-  m_Name: spike
+  m_Name: ground
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2366426691010350773
-BoxCollider2D:
+--- !u!60 &3878944784801085243
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0051529408, y: -0.0012881756}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -127,9 +127,103 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.58, y: 0.58}
+      - {x: -0.011572123, y: 0.043058693}
+      - {x: -0.58, y: -0.58}
+      - {x: 0.0008764267, y: -0.5730567}
+      - {x: 0.56, y: -0.58}
+      - {x: 0.5846291, y: -0.5785158}
+      - {x: 0.026935577, y: 0.050740063}
+      - {x: 0.58, y: 0.56}
+      - {x: 0.56, y: 0.58}
+  m_UseDelaunayMesh: 0
+--- !u!1 &6883532070123906050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5734569329141317894}
+  - component: {fileID: 2240299828447694601}
+  m_Layer: 9
+  m_Name: spike
+  m_TagString: Spike
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5734569329141317894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883532070123906050}
   serializedVersion: 2
-  m_Size: {x: 1.1460233, y: 1.1485991}
-  m_EdgeRadius: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3925185326998478046}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &2240299828447694601
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6883532070123906050}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.6160433, y: 0.91273826}
+      - {x: 0.04838705, y: 0.44143462}
+      - {x: -0.49327213, y: 0.9393335}
+      - {x: -0.49083114, y: 0.47390914}
+      - {x: -0.48866433, y: 0.0705235}
+      - {x: 0.0487535, y: 0.42927492}
+      - {x: 0.6200377, y: 0.04664111}
+      - {x: 0.62075424, y: 0.43192047}
+  m_UseDelaunayMesh: 0
 --- !u!1 &7898932549967184585
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +256,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8463677086363960763}
+  - {fileID: 5734569329141317894}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &4430875681785051736

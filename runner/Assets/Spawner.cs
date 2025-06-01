@@ -8,10 +8,19 @@ public class Spawner : MonoBehaviour
     public float obstacleSpawnTime = 0.706f;
     public float timeUntilSpawn;
     public float obstacleSpeed = 1.0f;
+    public LogicScript logic;
+    public bool isSpawning;
 
+    private void Start()
+    {
+        isSpawning = true;
+    }
     private void Update()
     {
-        SpawnLoop();
+        if (isSpawning)
+        {
+            SpawnLoop();
+        }
     }
 
     private void SpawnLoop()
@@ -39,9 +48,9 @@ public class Spawner : MonoBehaviour
         Rigidbody2D obstacleRB = spawnedObstacle.GetComponent<Rigidbody2D>();
         obstacleRB.velocity = Vector2.left * obstacleSpeed;
 
-        if (obstacleRB.position.x < -10f)
+        if (obstacleRB.position.x < -15f)
         {
-            Destroy(spawnedObstacle,0.2f);
+            Destroy(spawnedObstacle);
         }
         
     }

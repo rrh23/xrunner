@@ -18,11 +18,11 @@ public class PlayerMovement : MonoBehaviour
     private InputAction jumpAction;
     private InputAction crouchAction;
 
-    private bool canFly = true;
-    private bool isGrounded;
+    [SerializeField] private bool canFly = true;
+    [SerializeField] private bool isGrounded;
     [SerializeField] private bool isJumping;
-    private float jumpTimer, jumpTime;
-    private bool jumpPressed, crouchPressed;
+    [SerializeField] private float jumpTimer, jumpTime;
+    [SerializeField] private bool jumpPressed, crouchPressed;
 
     private float crouchHeight = 0.7f;
 
@@ -86,7 +86,6 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             jumpAmount = 0;
-            isJumping = false;
             canFly = true;
         }
 
@@ -100,12 +99,12 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = Vector2.down * jumpForce * 3;
                 jumpTimer = 0f;
             }
-            if (isJumping && isGrounded)
-            {
-                GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
-                canFly = false;
-                rb.velocity = Vector2.up * jumpForce;
-            }
+            //if (!isJumping && isGrounded)
+            //{
+            //    GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+            //    canFly = false;
+            //    rb.velocity = Vector2.up * jumpForce;
+            //}
         }
         if(!crouchPressed)
         {
