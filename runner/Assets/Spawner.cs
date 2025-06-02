@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] obstaclePrefabs;
+
     public float obstacleSpawnTime = 0.706f;
     public float timeUntilSpawn;
     public float obstacleSpeed = 1.0f;
     public LogicScript logic;
     public bool isSpawning;
+    private int spawnAmount;
+    private int randPrefab;
+    private int poolCount;
+
+    public ObjectPools objectPools;
 
     private void Start()
     {
         isSpawning = true;
+        objectPools = ObjectPools.Instance;
+        poolCount = objectPools.prefabCount;
     }
     private void Update()
     {
@@ -38,20 +45,40 @@ public class Spawner : MonoBehaviour
     {
         float lowestpos = -5f;
         float highestpos = 5;
+        GameObject obstacleToSpawn;
+        Rigidbody2D obstacleRB;
 
-        GameObject obstacleToSpawn = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+        //spawn tracker
+        spawnAmount++;
 
-        GameObject spawnedObstacle = Instantiate(obstacleToSpawn, new Vector3(transform.position.x, Random.Range(lowestpos, highestpos), 0), Quaternion.identity);
-        //quarternion.id just copies rotation from the prefab
-        //
-
-        Rigidbody2D obstacleRB = spawnedObstacle.GetComponent<Rigidbody2D>();
-        obstacleRB.velocity = Vector2.left * obstacleSpeed;
-
-        if (obstacleRB.position.x < -15f)
+        if(spawnAmount%10 == 0) //every multiple of 10 spawns a checkpoint pillar
         {
-            Destroy(spawnedObstacle);
+
+            obstacleToSpawn = objectPools.SpawnFromPool(6, new Vector3(transform.position.x, 0), Quaternion.identity);
+            obstacleRB = obstacleToSpawn.GetComponent<Rigidbody2D>();
+            obstacleRB.velocity = Vector2.left * obstacleSpeed;
         }
-        
+        else if(spawnAmount%10 != 0)
+        {
+            obstacleToSpawn = objectPools.SpawnRandomFromPools(new Vector3(transform.position.x, Random.Range(lowestpos, highestpos)), Quaternion.identity);
+            obstacleRB = obstacleToSpawn.GetComponent<Rigidbody2D>();
+            obstacleRB.velocity = Vector2.left * obstacleSpeed;
+
+
+            //if (randPrefab < 3) //stray cubes & not actual structures
+            //{
+            //    obstacleToSpawn = objectPools.SpawnRandomFromPools(new Vector3(transform.position.x, Random.Range(lowestpos, highestpos), 0), Quaternion.identity);
+            //    obstacleRB = obstacleToSpawn.GetComponent<Rigidbody2D>();
+            //    obstacleRB.velocity = Vector2.left * obstacleSpeed;
+            //}
+            //else //actual structures stick to the ground
+            //{
+            //    obstacleToSpawn = objectPools.SpawnRandomFromPools(new Vector3(transform.position.x, Random.Range(-2, 1), 0), Quaternion.identity);
+            //    obstacleRB = obstacleToSpawn.GetComponent<Rigidbody2D>();
+            //    obstacleRB.velocity = Vector2.left * obstacleSpeed;
+            //}
+
+        }
+
     }
 }

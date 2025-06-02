@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCollision : MonoBehaviour
+public class PlayerLogic : MonoBehaviour
 {
     public LogicScript logic;
 
@@ -18,4 +18,7 @@ public class PlayerCollision : MonoBehaviour
             logic.GameOver();
         }
     }
+
+    public float maxStamina = 100;
+    public float Stamina;
 }

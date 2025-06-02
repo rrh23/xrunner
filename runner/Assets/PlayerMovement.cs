@@ -9,8 +9,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform feetPos;
     [SerializeField] private float groundDistance;
     [SerializeField] private float jumpStrength;
-    [SerializeField] private int jumpAmount;
-    [SerializeField] private int jumpMax;
 
     [SerializeField] private Transform GFX;
 
@@ -18,17 +16,33 @@ public class PlayerMovement : MonoBehaviour
     private InputAction jumpAction;
     private InputAction crouchAction;
 
-    [SerializeField] private bool canFly = true;
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private bool isJumping;
+    private bool canFly = true;
+    private bool isGrounded;
+    private bool isJumping;
     [SerializeField] private float jumpTimer, jumpTime;
-    [SerializeField] private bool jumpPressed, crouchPressed;
+    private bool jumpPressed, crouchPressed;
+
+    private float currentStamina, 
+        maxStamina = 1;
+    public SliderLogic sliderLogic;
 
     private float crouchHeight = 0.7f;
+
+    //anim vars
+    private float animJump;
 
     private void Awake()
     {
         playerControls = new PlayerControls();
+
+    }
+    private void Start()
+    {
+        maxStamina = jumpStrength;
+        currentStamina = maxStamina;
+        sliderLogic.SetMaxVal(maxStamina);
+
+        jumpTime = jumpStrength; //initialize jumptime
     }
 
     private void OnEnable()
@@ -52,41 +66,45 @@ public class PlayerMovement : MonoBehaviour
         jumpPressed = jumpAction.ReadValue<float>() > 0.1f;
         crouchPressed = crouchAction.ReadValue<float>() > 0.1f;
 
+        currentStamina = jumpTime - jumpTimer;
+        sliderLogic.SetStamina(currentStamina);
+
+
         //[JUMPING]
-        //jump counter
-        if (jumpAction.triggered && jumpAmount < jumpMax)
+
+        //anim
+        if (jumpPressed)
         {
-            jumpAmount++;
+            GFX.localScale = new Vector3(GFX.localScale.x, 1.4f, GFX.localScale.z);
+            Debug.Log("jump!");
         }
+        else
+        {
+            GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+        }
+
+        if (isGrounded) //resets params if hit ground
+        {
+            isJumping = false;
+            canFly = true;
+            jumpTimer = 0f;
+        }
+
 
         if (isGrounded && jumpPressed && !isJumping) //onground and [jump] pressed
         {
             isJumping = true;
-            jumpTimer = 0f;
             rb.velocity = Vector2.up * jumpForce;
-
-            jumpTime = jumpStrength; //initialize jumptime
-
-            //if (jumpAmount > 0)
-            //{
-            //    jumpTime += 1f;
-            //}
         }
         else if (isJumping && jumpPressed && jumpTimer < jumpTime && canFly) //flies if [jump] is held
         {
+            isJumping = true;
             rb.velocity = Vector2.up * jumpForce;
             jumpTimer += Time.deltaTime;
         }
-        else if (!jumpPressed && jumpTimer >= jumpTime && jumpAmount >= jumpMax) //stops flying
+        else if (!jumpPressed && currentStamina <= 0) //stops flying
         {
             isJumping = false;
-            jumpAmount = 0;
-        }
-        else if (isGrounded) //resets params if hit ground
-        {
-            isJumping = false;
-            jumpAmount = 0;
-            canFly = true;
         }
 
         //[CROUCHING]
@@ -97,14 +115,7 @@ public class PlayerMovement : MonoBehaviour
             if (crouchAction.triggered) //only when pressed and not held
             {
                 rb.velocity = Vector2.down * jumpForce * 3;
-                jumpTimer = 0f;
             }
-            //if (!isJumping && isGrounded)
-            //{
-            //    GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
-            //    canFly = false;
-            //    rb.velocity = Vector2.up * jumpForce;
-            //}
         }
         if(!crouchPressed)
         {
