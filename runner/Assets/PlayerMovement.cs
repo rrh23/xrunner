@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,30 +7,31 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask groundLayer;
-    [SerializeField] private Transform feetPos;
-    [SerializeField] private float groundDistance;
-    [SerializeField] private float jumpStrength;
+    [SerializeField] public Transform feetPos;
+    [SerializeField] public float groundDistance;
+    [SerializeField] public float jumpStrength;
 
     [SerializeField] private Transform GFX;
 
     private PlayerControls playerControls;
     private InputAction jumpAction;
     private InputAction crouchAction;
+    public PlayerLogic playerLogic;
 
     private bool canFly = true;
     private bool isGrounded;
     private bool isJumping;
-    [SerializeField] private float jumpTimer, jumpTime;
+    public float jumpTimer, jumpTime;
     private bool jumpPressed, crouchPressed;
 
-    private float currentStamina, 
-        maxStamina = 1;
+    
     public SliderLogic sliderLogic;
 
     private float crouchHeight = 0.7f;
 
     //anim vars
-    private float animJump;
+    private float animJump = 1f;
+    private bool collCheck = false;
 
     private void Awake()
     {
@@ -38,11 +40,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Start()
     {
-        maxStamina = jumpStrength;
-        currentStamina = maxStamina;
-        sliderLogic.SetMaxVal(maxStamina);
-
         jumpTime = jumpStrength; //initialize jumptime
+        jumpTimer = 0f; 
     }
 
     private void OnEnable()
@@ -66,17 +65,12 @@ public class PlayerMovement : MonoBehaviour
         jumpPressed = jumpAction.ReadValue<float>() > 0.1f;
         crouchPressed = crouchAction.ReadValue<float>() > 0.1f;
 
-        currentStamina = jumpTime - jumpTimer;
-        sliderLogic.SetStamina(currentStamina);
-
-
         //[JUMPING]
 
         //anim
         if (jumpPressed)
         {
-            GFX.localScale = new Vector3(GFX.localScale.x, 1.4f, GFX.localScale.z);
-            Debug.Log("jump!");
+            Anim("Jump");
         }
         else
         {
@@ -85,9 +79,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded) //resets params if hit ground
         {
+            Anim("Bounce");
             isJumping = false;
             canFly = true;
-            jumpTimer = 0f;
+            //jumpTimer = 0f;
+            if(jumpTimer >= 0) 
+            {
+                jumpTimer -= Time.deltaTime * 2;
+            }
+            else if (jumpTimer < 0) jumpTimer = 0;
         }
 
 
@@ -102,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = Vector2.up * jumpForce;
             jumpTimer += Time.deltaTime;
         }
-        else if (!jumpPressed && currentStamina <= 0) //stops flying
+        else if (!jumpPressed && playerLogic.currentStamina <= 0) //stops flying
         {
             isJumping = false;
         }
@@ -110,17 +110,59 @@ public class PlayerMovement : MonoBehaviour
         //[CROUCHING]
         if (crouchPressed)
         {
+            Anim("Crouch");
+        }
+        
+        else if(!jumpPressed && !crouchPressed)
+        {
+            GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+        }
+    }
+
+    private void Anim(string name) 
+    {
+        if (name == "Jump")
+        {
+            GFX.localScale = new Vector3(GFX.localScale.x, animJump, GFX.localScale.z);
+            if (jumpAction.triggered)
+            {
+                animJump = 1.4f;
+            }
+            if (animJump > 1f)
+            {
+                animJump -= Time.deltaTime;
+            }
+        }
+        if(name == "Crouch")
+        {
             GFX.localScale = new Vector3(GFX.localScale.x, crouchHeight, GFX.localScale.z);
 
             if (crouchAction.triggered) //only when pressed and not held
             {
                 rb.velocity = Vector2.down * jumpForce * 3;
             }
+            if (isJumping) //go back to normal size if both is pressed
+            {
+                GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+            }
         }
-        if(!crouchPressed)
+        if(name == "Bounce")
         {
-            canFly = true;
-            GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
+            GFX.localScale = new Vector3(GFX.localScale.x, animJump, GFX.localScale.z);
+            if(collCheck) // only trigger this for a split second
+            {
+                animJump = 0.8f;
+                collCheck = false;
+            }
+            if (animJump < 1f)
+            {
+                animJump += Time.deltaTime;
+            }
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        collCheck = true;
     }
 }

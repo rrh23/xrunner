@@ -14,7 +14,7 @@ public class ObjectPools : MonoBehaviour
     }
 
     public List<Pool> pools;
-    public int prefabCount;
+    public int prefabCount, prefabID;
 
     public Dictionary<int, Queue<GameObject>> poolDictionary;
 
@@ -61,6 +61,8 @@ public class ObjectPools : MonoBehaviour
             return null;
         }
 
+        
+
         GameObject objToSpawn = poolDictionary[index].Dequeue();
         objToSpawn.SetActive(true);
         objToSpawn.transform.position = position;
@@ -86,6 +88,8 @@ public class ObjectPools : MonoBehaviour
         }
 
         int randomIndex = Random.Range(0, poolDictionary.Count - 1);
+
+        prefabID = randomIndex; //saves number to preefabID so other script can recognize
         return SpawnFromPool(randomIndex, position, rotation);
     }
 

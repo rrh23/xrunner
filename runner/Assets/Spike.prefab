@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7953190471189771705}
   - component: {fileID: 1863375028576860244}
-  - component: {fileID: 5811477305516429313}
+  - component: {fileID: 8371141238549238973}
   m_Layer: 9
   m_Name: spike
   m_TagString: Obstacle
@@ -85,8 +85,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!60 &5811477305516429313
-PolygonCollider2D:
+--- !u!61 &8371141238549238973
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,7 +117,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0025434494, y: -0.21363103}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -127,29 +127,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.58, y: -0.42999998}
-      - {x: 0.55, y: -0.41}
-      - {x: 0.55, y: -0.35}
-      - {x: 0.19, y: 0.37}
-      - {x: 0.14999999, y: 0.39}
-      - {x: 0.14999999, y: 0.45}
-      - {x: 0.049999997, y: 0.53999996}
-      - {x: -0.04, y: 0.53999996}
-      - {x: -0.089999996, y: 0.51}
-      - {x: -0.14999999, y: 0.45}
-      - {x: -0.26, y: 0.21}
-      - {x: -0.34, y: 0.049999997}
-      - {x: -0.42, y: -0.12}
-      - {x: -0.5, y: -0.26999998}
-      - {x: -0.58, y: -0.42999998}
-      - {x: -0.58, y: -0.53999996}
-      - {x: -0.55, y: -0.57}
-      - {x: -0.52, y: -0.58}
-      - {x: 0.52, y: -0.58}
-      - {x: 0.58, y: -0.52}
-  m_UseDelaunayMesh: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5729828, y: 0.6848843}
+  m_EdgeRadius: 0
 --- !u!1 &8130314076152021376
 GameObject:
   m_ObjectHideFlags: 0
@@ -209,7 +189,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!114 &-5385372133582331053
 MonoBehaviour:
@@ -223,3 +203,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc51b210141c21c488bed9f1fb5ae52f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Object1: {fileID: 0}
+  Object2: {fileID: 0}
