@@ -7,16 +7,15 @@ public class GearScript : MonoBehaviour
     [SerializeField] private Transform GFX;
     private Rigidbody2D rb;
     [SerializeField] public float speed;
-    // Start is called before the first frame update
+
     void Start()
     {
-       rb = gameObject.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>(); // Corrected: Use GetComponent on the same GameObject
     }
 
-    // Update is called once per frame
     void Update()
     {
-        GFX.transform.Rotate(Vector3.right, 1f * Time.deltaTime);
-        rb.rotation = Time.deltaTime * speed;
+        GFX.Rotate(Vector3.forward, speed * Time.deltaTime); // Rotate the GFX transform
+        //rb.MoveRotation(rb.rotation + speed * Time.deltaTime); // Rotate the Rigidbody2D
     }
 }

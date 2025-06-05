@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class LogicScript : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI score;
+    [SerializeField] public TextMeshProUGUI gameOverScore;
+    [SerializeField] public TextMeshProUGUI gameOverHighscore;
     //public int playerScore;
     //public TMP_Text text;
     public GameObject player;
@@ -15,9 +17,9 @@ public class LogicScript : MonoBehaviour
     public Spawner spawner;
 
     public static LogicScript Instance;
-    public SaveData saveData;
+    public Data data;
 
-    public Transform target;
+    //public Transform target;
     public float speed = 100f;
 
     private void Awake()
@@ -30,9 +32,20 @@ public class LogicScript : MonoBehaviour
 
     private void Start()
     {
+        player.SetActive(true);
         isPlaying = true;
-        saveData = new SaveData();
+        data = new Data();
         currentScore = 0;
+
+        string loadedData = SaveSystem.Load("save");
+        if(loadedData != null )
+        {
+            data = JsonUtility.FromJson<Data>(loadedData);
+        }
+        else
+        {
+            data = new Data();
+        }
     }
     private void Update()
     {
@@ -41,10 +54,10 @@ public class LogicScript : MonoBehaviour
             currentScore += Time.deltaTime;
         }
 
-        if (target != null) 
-        {
-            target.transform.Translate(Vector3.left * (speed * 100) * Time.deltaTime);
-        }
+        //if (target != null) 
+        //{
+        //    target.transform.Translate(Vector3.left * (speed * 1) * Time.deltaTime);
+        //}
     }
     private void OnGUI()
     {
@@ -56,18 +69,32 @@ public class LogicScript : MonoBehaviour
         return Mathf.RoundToInt(currentScore).ToString();
     }
 
+    public string RoundedHighScore()
+    {
+        return Mathf.RoundToInt(data.highscore).ToString();
+    }
+
     public void GameOver()
     {
-        Destroy(player);
+        player.SetActive(false);
         gameOverScreen.SetActive(true);
         audioManager.stopBGM();
         isPlaying = false;
 
         //update highscore
-        if (saveData.highscore < currentScore)
+        if (data.highscore < currentScore)
         {
-            saveData.highscore = currentScore;
+            data.highscore = currentScore;
+
+            //save
+            string saveString = JsonUtility.ToJson(data);
+            SaveSystem.Save("save", saveString);
         }
+
+        //save scores
+        gameOverScore.text = "Score: " + RoundedScore();
+        gameOverHighscore.text = "Highscore: " + RoundedHighScore();
+
     }
 
     public void RestartGame()

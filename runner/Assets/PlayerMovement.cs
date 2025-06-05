@@ -83,11 +83,11 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
             canFly = true;
             //jumpTimer = 0f;
-            if(jumpTimer >= 0) 
+            if(jumpTimer > 0) 
             {
                 jumpTimer -= Time.deltaTime * 2;
             }
-            else if (jumpTimer < 0) jumpTimer = 0;
+            else jumpTimer = 0;
         }
 
 
