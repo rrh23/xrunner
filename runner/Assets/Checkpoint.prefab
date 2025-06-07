@@ -220,6 +220,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnergyDrink
       objectReference: {fileID: 0}
+    - target: {fileID: 8130314076152021376, guid: 27df4a532f374b4478b4f59ceba96838, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

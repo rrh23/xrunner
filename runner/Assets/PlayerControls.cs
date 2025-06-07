@@ -318,6 +318,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""348837d5-6682-461c-975f-80a4cd479c05"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fd06b241-1487-4635-a8a2-9d27a85f33f1"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",

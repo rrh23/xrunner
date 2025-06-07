@@ -586,7 +586,6 @@ MonoBehaviour:
   spawner: {fileID: 50868187}
   data:
     highscore: 0
-  target: {fileID: 0}
   speed: 0.125
   currentScore: 0
   isPlaying: 0
@@ -880,6 +879,7 @@ MonoBehaviour:
   slider: {fileID: 723464533}
   mov: {fileID: 375468356}
   sr: {fileID: 1186167849}
+  energyDrink: {fileID: 8130314076152021376, guid: 27df4a532f374b4478b4f59ceba96838, type: 3}
   currentStamina: 0
   maxStamina: 100
   currentHealth: 0

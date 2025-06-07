@@ -21,6 +21,7 @@ public class LogicScript : MonoBehaviour
 
     //public Transform target;
     public float speed = 100f;
+    public bool isEDCollected;
 
     private void Awake()
     {

@@ -5,14 +5,14 @@ using UnityEngine;
 public class ObstacleScript : MonoBehaviour, IPoolObject
 {
     [SerializeField] GameObject Object1, Object2;
-    GameObject energyDrink;
+    
     // Start is called before the first frame update
 
     private void Start()
     {
         Object1 = gameObject;
         Object2 = GameObject.FindGameObjectWithTag("Obstacle");
-        energyDrink = GameObject.FindGameObjectWithTag("EnergyDrink");
+        
     }
     public void OnObjectSpawn()
     {
@@ -37,17 +37,6 @@ public class ObstacleScript : MonoBehaviour, IPoolObject
                 Vector3 direction = (Object2.transform.position - Object1.transform.position).normalized;
                 float moveDistance = 1.3f;
                 Object2.transform.position += direction * moveDistance;
-            }
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.transform.CompareTag("Player"))
-        {
-            if (gameObject != null)
-            {
-                Destroy(gameObject);
             }
         }
     }

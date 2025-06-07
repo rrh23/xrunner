@@ -140,7 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3241129650749474458}
   - component: {fileID: 7675572755943144016}
-  - component: {fileID: -5385372133582331053}
+  - component: {fileID: 4183663910070272762}
   m_Layer: 10
   m_Name: EnergyDrink
   m_TagString: EnergyDrink
@@ -191,7 +191,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &-5385372133582331053
+--- !u!114 &4183663910070272762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,8 +200,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 8130314076152021376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc51b210141c21c488bed9f1fb5ae52f, type: 3}
+  m_Script: {fileID: 11500000, guid: 211c25713e5343d4797654645dbb7173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object1: {fileID: 0}
-  Object2: {fileID: 0}

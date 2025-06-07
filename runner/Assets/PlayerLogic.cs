@@ -56,13 +56,22 @@ public class PlayerLogic : MonoBehaviour
         sr.color = rgb;
     }
 
+    private IEnumerator FlashGreen()
+    {
+        sr.color = Color.green;
+        yield return new WaitForSeconds(0.1f);
+        sr.color = rgb;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("EnergyDrink"))
         {
+            StartCoroutine(FlashGreen());
             currentHealth = maxHealth;
             slider.SetHealth(maxHealth, maxHealth);
             logic.currentScore += 10;
+            logic.isEDCollected = true;
         }
     }
 }
