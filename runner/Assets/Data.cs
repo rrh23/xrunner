@@ -5,6 +5,8 @@ using UnityEngine;
 public class Data
 {
     public float highscore;
+    public float BGMvolume;
+    public float SFXvolume;
 }
 
 public static class SaveSystem
@@ -20,6 +22,7 @@ public static class SaveSystem
         }
 
         File.WriteAllText(SAVE_FOLDER + fileName + FILE_EXT, dataToSave);
+        Debug.Log("saved data! filename:" + fileName + "data:" + dataToSave);
     }
 
     public static string Load(string fileName)
@@ -28,11 +31,12 @@ public static class SaveSystem
         if (File.Exists(file))
         {
             string loadedData = File.ReadAllText(file);
-
+            Debug.Log("loaded data! data: " + loadedData);
             return loadedData;
         }
         else
         {
+            Debug.Log("null :(");
             return null;
         }
     }

@@ -15,7 +15,7 @@ public class LogicScript : MonoBehaviour
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
     public AudioManager audioManager;
-    private AudioSource audioSource;
+    public AudioSource bgmSource;
     public Spawner spawner;
 
     public static LogicScript Instance;
@@ -38,7 +38,6 @@ public class LogicScript : MonoBehaviour
     {
         player.SetActive(true);
         isPlaying = true;
-        data = new Data();
         currentScore = 0;
 
         string loadedData = SaveSystem.Load("save");
@@ -67,12 +66,12 @@ public class LogicScript : MonoBehaviour
         {
             // Pause the game
             Time.timeScale = 0f;
-            audioSource.Pause();
+            bgmSource.Pause();
             pauseScreen.SetActive(true);
             //Debug.Log("Game Paused");
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                //mainMenu();
+                MainMenu();
             }
 
         }
@@ -80,7 +79,7 @@ public class LogicScript : MonoBehaviour
         {
             // Resume the game
             Time.timeScale = 1f;
-            audioSource.UnPause();
+            bgmSource.UnPause();
             isPaused = false;
             pauseScreen.SetActive(false);
             //Debug.Log("Game Resumed");
@@ -112,10 +111,7 @@ public class LogicScript : MonoBehaviour
         if (data.highscore < currentScore)
         {
             data.highscore = currentScore;
-
-            //save
-            string saveString = JsonUtility.ToJson(data);
-            SaveSystem.Save("save", saveString);
+            SaveData(data);
         }
 
         //save scores
@@ -123,18 +119,48 @@ public class LogicScript : MonoBehaviour
         gameOverHighscore.text = "Highscore: " + RoundedHighScore();
 
     }
+    
+    public void Resume()
+    {
+        isPaused = false;
+    }
 
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
-    public void mainMenu()
+   
+    public void MainMenu()
     {
         SceneManager.LoadScene(0);
     }
-    public void pause()
+    public void Pause()
     {
         isPaused = true;
+        
+    }
+
+
+    public void SaveVolumeData()
+    {
+        //save pref to data
+        data.SFXvolume = audioManager.SFXSlider.value;
+        data.BGMvolume = audioManager.BGMSlider.value;
+        SaveData(data);
+    }
+
+    public void Settings()
+    {
+        //load the volume's data
+        audioManager.BGMSlider.value = data.BGMvolume;
+        audioManager.SFXSlider.value = data.SFXvolume;
+    }
+
+    public Data SaveData(Data data)
+    {
+        //save
+        string saveString = JsonUtility.ToJson(data);
+        SaveSystem.Save("save", saveString);
+        return data;
     }
 }
