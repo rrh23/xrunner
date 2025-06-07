@@ -15,10 +15,13 @@ public class PlayerLogic : MonoBehaviour
     public float currentHealth,
         maxHealth = 5;
 
+    public float EDRegen;
+
     private void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
 
+        EDRegen = 5f;
         maxStamina = mov.jumpStrength;
         currentStamina = maxStamina;
         currentHealth = maxHealth;
@@ -32,6 +35,15 @@ public class PlayerLogic : MonoBehaviour
     {
         currentStamina = mov.jumpTime - mov.jumpTimer;
         slider.SetStamina(currentStamina, maxStamina);
+
+        if (logic.isEDCollected)
+        {
+            while (EDRegen > 0)
+            {
+                EDRegen -= Time.deltaTime;
+            }
+            if(EDRegen <= 0) logic.isEDCollected = false;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
