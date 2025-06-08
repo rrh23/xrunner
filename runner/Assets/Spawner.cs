@@ -29,6 +29,8 @@ public class Spawner : MonoBehaviour
         if (isPlaying)
         {
             SpawnLoop();
+
+            obstacleSpeed += Time.deltaTime * 0.05f;
         }
     }
 

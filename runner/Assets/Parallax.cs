@@ -2,7 +2,7 @@ using UnityEngine;
 public class Parallax : MonoBehaviour
 {
     public Material mat;
-    private float offsetX; // accumulated offset
+    public float offsetX; // accumulated offset
 
     [Range(0f, 0.7f)]
     public float speed;

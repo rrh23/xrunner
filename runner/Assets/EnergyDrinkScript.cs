@@ -20,11 +20,12 @@ public class EnergyDrinkScript : MonoBehaviour
     {
         if (logic.isEDCollected)
         {
-            StartCoroutine(FlashInvisible());
+            StartCoroutine(FlashClear());
+            Debug.Log("full health!!");
         }
     }
 
-    private IEnumerator FlashInvisible()
+    private IEnumerator FlashClear()
     {
         sr.color = Color.clear;
         yield return new WaitForSeconds(6f);

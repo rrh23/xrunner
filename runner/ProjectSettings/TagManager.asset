@@ -20,7 +20,7 @@ TagManager:
   - Obstacle
   - Spike
   - Interactable
-  - 
+  - Canvas
   - 
   - 
   - 
@@ -44,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: canvas
+    uniqueID: 550107223
     locked: 0

@@ -19,7 +19,6 @@ public class AudioManager : MonoBehaviour
     public UnityEngine.UI.Slider SFXSlider;
 
     public Data data;
-    public LogicScript ls;
 
     private bool isStopping;
     private float stopDuration = 1.0f;
@@ -44,7 +43,7 @@ public class AudioManager : MonoBehaviour
         BGMSource.clip = bgm01;
         BGMSource.Play();
 
-        ls = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
+        //ls = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
     public void PlaySFX(AudioClip clip)
@@ -90,7 +89,7 @@ public class AudioManager : MonoBehaviour
             BGMSource.pitch = Mathf.Lerp(startPitch, 0.0f, t);
 
             // Optionally decrease volume (for realism)
-            BGMSource.volume = Mathf.Lerp(1.0f, 0.0f, t);
+            BGMSource.volume = Mathf.Lerp(data.BGMvolume, 0.0f, t);
 
             yield return null;
         }

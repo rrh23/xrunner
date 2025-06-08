@@ -71,7 +71,7 @@ public class PlayerLogic : MonoBehaviour
     private IEnumerator FlashGreen()
     {
         sr.color = Color.green;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         sr.color = rgb;
     }
 

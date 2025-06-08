@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LogicScript : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class LogicScript : MonoBehaviour
     public GameObject player;
     public GameObject gameOverScreen;
     public GameObject pauseScreen;
+    public GameObject transition;
+    public GameObject playerCanvas;
     public AudioManager audioManager;
     public AudioSource bgmSource;
     public Spawner spawner;
@@ -22,9 +26,12 @@ public class LogicScript : MonoBehaviour
     public Data data;
 
     //public Transform target;
-    public float speed = 100f;
+    //private float speed = 100f;
     public bool isEDCollected;
     public bool isPaused;
+
+    private Image img, playerimg;
+    public float transitionAmt;
 
     private void Awake()
     {
@@ -49,9 +56,35 @@ public class LogicScript : MonoBehaviour
         {
             data = new Data();
         }
+
+        transition.SetActive(true);
+        img = transition.GetComponent<Image>();
+        playerimg = playerCanvas.GetComponentInChildren<Image>();
+        transitionAmt = 1;
+
+        //set volume = settings
+        Settings();
     }
     private void Update()
     {
+        //transition
+        if (transitionAmt >= 0)
+        {
+            playerimg.color = Color.clear;
+            img.fillAmount = transitionAmt;
+            transitionAmt -= Time.deltaTime * 2.2f;
+        }
+        else
+        {
+            transition.SetActive (false);
+
+            //super janky method of turning on the health & stamina bars after the transition
+            //because the layering behaves kinda weirdly
+            //idk
+            //playerCanvas.transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+            playerimg.color = Color.white;
+        }
+
         if (isPlaying)
         {
             currentScore += Time.deltaTime;
