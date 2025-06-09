@@ -1182,7 +1182,7 @@ MonoBehaviour:
   playerLogic: {fileID: 375468358}
   jumpTimer: 0
   jumpTime: 0
-  sliderLogic: {fileID: 723464533}
+  sliderLogic: {fileID: 0}
 --- !u!114 &375468357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1226,7 +1226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   logic: {fileID: 232144746}
-  slider: {fileID: 723464533}
+  slider: {fileID: 0}
   mov: {fileID: 375468356}
   sr: {fileID: 1186167849}
   currentStamina: 0
@@ -1953,7 +1953,6 @@ GameObject:
   - component: {fileID: 723464537}
   - component: {fileID: 723464536}
   - component: {fileID: 723464535}
-  - component: {fileID: 723464533}
   m_Layer: 7
   m_Name: PlayerCanvas
   m_TagString: Untagged
@@ -1961,25 +1960,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &723464533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723464532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 421b3043a82ab0f44a2b7aa999208372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  slider1: {fileID: 1501076270}
-  slider2: {fileID: 2142073986}
-  staminaSlider: {fileID: 1501076271}
-  healthSlider: {fileID: 2142073988}
-  low: {r: 0.4716981, g: 0.01334995, b: 0.01334995, a: 1}
-  high: {r: 0.30126512, g: 1, b: 0.103773594, a: 1}
-  offset: {x: 0, y: 0, z: 0}
 --- !u!224 &723464534
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2503,6 +2483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 0}
+  offsetX: 0
   speed: 0.016
 --- !u!1 &850335034
 GameObject:
@@ -2601,6 +2582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 0}
+  offsetX: 0
   speed: 0.03
 --- !u!1 &905586053
 GameObject:
@@ -4413,6 +4395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mat: {fileID: 0}
+  offsetX: 0
   speed: 0.7
 --- !u!1 &1297709752
 GameObject:
@@ -5080,6 +5063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1501076272}
   - component: {fileID: 1501076271}
+  - component: {fileID: 1501076273}
   m_Layer: 7
   m_Name: Stamina
   m_TagString: Untagged
@@ -5132,7 +5116,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 5
+  m_MaxValue: 0.78
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -5157,8 +5141,27 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 124.4484, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1501076273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501076270}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421b3043a82ab0f44a2b7aa999208372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider1: {fileID: 0}
+  slider2: {fileID: 0}
+  staminaSlider: {fileID: 0}
+  healthSlider: {fileID: 0}
+  low: {r: 0.3647059, g: 0.1279481, b: 0.035294108, a: 0}
+  high: {r: 0.8584906, g: 0.5570829, b: 0.21462265, a: 0}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &1508066881
 GameObject:
   m_ObjectHideFlags: 0
@@ -5474,7 +5477,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.033190746, g: 0.030838378, b: 0.0990566, a: 0.827451}
+  m_Color: {r: 0.033190746, g: 0.030838378, b: 0.0990566, a: 0.078431375}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7116,6 +7119,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2142073987}
   - component: {fileID: 2142073988}
+  - component: {fileID: 2142073989}
   m_Layer: 7
   m_Name: Health
   m_TagString: Untagged
@@ -7189,12 +7193,31 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 0.78
-  m_WholeNumbers: 0
+  m_MaxValue: 5
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2142073989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142073986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421b3043a82ab0f44a2b7aa999208372, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slider1: {fileID: 0}
+  slider2: {fileID: 0}
+  staminaSlider: {fileID: 0}
+  healthSlider: {fileID: 0}
+  low: {r: 0.31473163, g: 0.8915094, b: 0.12195178, a: 0}
+  high: {r: 0.7783019, g: 0, b: 0.06147397, a: 0}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
