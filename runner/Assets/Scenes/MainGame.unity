@@ -1180,9 +1180,10 @@ MonoBehaviour:
   jumpStrength: 0.7
   GFX: {fileID: 1186167847}
   playerLogic: {fileID: 375468358}
+  audioManager: {fileID: 2036275079}
   jumpTimer: 0
   jumpTime: 0
-  sliderLogic: {fileID: 0}
+  sliderLogic: {fileID: 723464538}
 --- !u!114 &375468357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,6 +1230,7 @@ MonoBehaviour:
   slider: {fileID: 723464538}
   health: {fileID: 2142073989}
   stamina: {fileID: 1501076273}
+  am: {fileID: 2036275079}
   mov: {fileID: 375468356}
   sr: {fileID: 1186167849}
   currentStamina: 0
@@ -1981,8 +1983,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1366, y: 768}
+  m_AnchoredPosition: {x: 0, y: -0.0248}
+  m_SizeDelta: {x: 1366, y: 772.9508}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &723464535
 MonoBehaviour:
@@ -3006,7 +3008,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1526159442}
   m_Father: {fileID: 2036275080}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1063205634
@@ -3359,7 +3362,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.34047619}
   m_AnchorMax: {x: 0.5, y: 0.34047619}
-  m_AnchoredPosition: {x: -221.99998, y: 127.4299}
+  m_AnchoredPosition: {x: -196.99998, y: 127.4299}
   m_SizeDelta: {x: 177.97, y: 82.7948}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1159164648
@@ -3495,7 +3498,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 158.01001, y: -44.69629}
+  m_AnchoredPosition: {x: 123, y: -50.128}
   m_SizeDelta: {x: 125.3701, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1174874419
@@ -5417,6 +5420,134 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1526159441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526159442}
+  - component: {fileID: 1526159443}
+  m_Layer: 0
+  m_Name: Jump
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1526159442
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526159441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 966010133}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1526159443
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526159441}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 5779781867119092983, guid: 410c1395eba38584b8d2a1fb7fe603fd, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1531767096
 GameObject:
   m_ObjectHideFlags: 0
@@ -5685,7 +5816,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.34047619}
   m_AnchorMax: {x: 0.5, y: 0.34047619}
-  m_AnchoredPosition: {x: -222, y: 244}
+  m_AnchoredPosition: {x: -197, y: 244}
   m_SizeDelta: {x: 177.97, y: 82.7948}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1607638188
@@ -6709,7 +6840,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BGMSource: {fileID: 1782073554}
   SFXSource: {fileID: 966010132}
+  FlySource: {fileID: 1526159443}
   bgm01: {fileID: 8300000, guid: 0024471c9ad53244997acfe1741d47eb, type: 3}
+  fly: {fileID: 8300000, guid: 85bffe6eb1c133b4f903fdd3a489b71f, type: 3}
+  crouch: {fileID: 8300000, guid: 99ed37a7672ee024dbbe63a1d715c1a6, type: 3}
+  heal: {fileID: 8300000, guid: 4ee81378ded0f5640894c4d506aad1d3, type: 3}
+  death: {fileID: 8300000, guid: 2d870c0d5ca0bc147b35ccb0de68963d, type: 3}
+  click: {fileID: 8300000, guid: b7476eef71561f5428eeaf5e17e92ddb, type: 3}
+  hurt: {fileID: 8300000, guid: 963cfb2be4d403942a55f2f86df7d167, type: 3}
   AudioMixer: {fileID: 24100000, guid: 410c1395eba38584b8d2a1fb7fe603fd, type: 2}
   BGMSlider: {fileID: 2091410303}
   SFXSlider: {fileID: 1174874419}
@@ -6845,7 +6983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 158.01001, y: 121.65}
+  m_AnchoredPosition: {x: 123, y: 66.44202}
   m_SizeDelta: {x: 125.3701, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2091410303

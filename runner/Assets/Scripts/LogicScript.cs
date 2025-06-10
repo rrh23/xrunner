@@ -173,6 +173,10 @@ public class LogicScript : MonoBehaviour
         
     }
 
+    public void click()
+    {
+        audioManager.playSound(audioManager.click);
+    }
 
     public void SaveVolumeData()
     {

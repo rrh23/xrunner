@@ -5,14 +5,13 @@ using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] AudioSource BGMSource;
-    [SerializeField] AudioSource SFXSource;
+    [SerializeField] public AudioSource BGMSource;
+    [SerializeField] public AudioSource SFXSource;
+    [SerializeField] public AudioSource FlySource;
 
     public AudioClip bgm01;
     //public AudioClip bgm02;
-    //public AudioClip jump;
-    //public AudioClip crouch;
-    //public AudioClip die;
+    public AudioClip fly, crouch, heal, death, click, hurt;
 
     public AudioMixer AudioMixer;
     public UnityEngine.UI.Slider BGMSlider;
@@ -22,6 +21,8 @@ public class AudioManager : MonoBehaviour
 
     private bool isStopping;
     private float stopDuration = 1.0f;
+    private float fadeDuration = 0.3f;
+    public Coroutine fadeCoroutine;
 
     private void Start()
     {
@@ -46,10 +47,32 @@ public class AudioManager : MonoBehaviour
         //ls = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void startFade()
     {
-        SFXSource.PlayOneShot(clip);
+        fadeCoroutine = StartCoroutine(FadeOut());
     }
+
+    public void playSound(AudioClip soundName)
+    {
+        //initialize volumes
+        BGMSource.volume = data.BGMvolume;
+        SFXSource.volume = data.SFXvolume;
+        FlySource.volume = 1f;
+        
+        if (soundName == fly)
+        {
+            FlySource.clip = fly;
+            FlySource.Play();
+        }
+        else
+        {
+            SFXSource.clip = soundName;
+            SFXSource.PlayOneShot(soundName);
+        }
+
+        if (!soundName) return;
+    }
+    
     public void stopBGM()
     {
         TapeStop();
@@ -85,10 +108,7 @@ public class AudioManager : MonoBehaviour
             time += Time.deltaTime;
             float t = time / stopDuration;
 
-            // Gradually decrease pitch over time
             BGMSource.pitch = Mathf.Lerp(startPitch, 0.0f, t);
-
-            // Optionally decrease volume (for realism)
             BGMSource.volume = Mathf.Lerp(data.BGMvolume, 0.0f, t);
 
             yield return null;
@@ -97,5 +117,22 @@ public class AudioManager : MonoBehaviour
         BGMSource.pitch = 0.0f;
         BGMSource.Stop();
         isStopping = false;
+    }
+    
+    IEnumerator FadeOut()
+    {
+        // SFXSource.volume = data.SFXvolume;
+        float startVolume = FlySource.volume;
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            FlySource.volume = Mathf.Lerp(startVolume, 0f, elapsed / fadeDuration);
+            yield return null;
+        }
+
+        FlySource.Stop();
+        FlySource.volume = 1f;
+        fadeCoroutine = null;
     }
 }

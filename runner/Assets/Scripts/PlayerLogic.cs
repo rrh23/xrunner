@@ -10,6 +10,7 @@ public class PlayerLogic : MonoBehaviour
     public SliderLogic slider;
     public HealthLogic health;
     public StaminaLogic stamina;
+    public AudioManager am;
     public PlayerMovement mov;
     public SpriteRenderer sr;
 
@@ -73,16 +74,24 @@ public class PlayerLogic : MonoBehaviour
 
     public IEnumerator Damaged()
     {
+        
         if (currentHealth > 0 && damageCooldown <= 0.1f)
         {
+            
             currentHealth -= 1;
             health.SetHealth(currentHealth,maxHealth);
             // Debug.Log("ugh!" + "(health: " + currentHealth + ")");
         }
-        
-        if(currentHealth == 0) logic.GameOver();
+
+        if (currentHealth == 0)
+        {
+            am.playSound(am.death);
+            logic.GameOver();
+        }
 
         if (!gameObject.activeSelf) yield break;
+        
+        am.playSound(am.hurt);
         damageCooldown = 1;
         Tween.Color(sr, Color.red, Color.white, 0.3f).OnComplete(() => damageCooldown = 0);
     }
@@ -97,7 +106,9 @@ public class PlayerLogic : MonoBehaviour
             health.SetHealth(maxHealth, maxHealth);
             logic.currentScore += 10;
             logic.isEDCollected = true;
+            
             Tween.Color(sr, Color.green, Color.white, 0.8f);
+            am.playSound(am.heal);
         }
     }
 }

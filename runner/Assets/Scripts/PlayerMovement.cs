@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,16 +14,18 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform GFX;
 
-    private PlayerControls playerControls;
-    private InputAction jumpAction;
-    private InputAction crouchAction;
+    public PlayerControls playerControls;
+    private InputAction jumpAction, crouchAction, quitAction;
     public PlayerLogic playerLogic;
-
+    
+    public AudioManager audioManager;
+    private AudioClip fly;
+    
     private bool canFly = true;
     private bool isGrounded;
     private bool isJumping;
     public float jumpTimer, jumpTime;
-    private bool jumpPressed, crouchPressed;
+    private bool jumpPressed, crouchPressed, quitPressed;
 
     
     public SliderLogic sliderLogic;
@@ -32,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     //anim vars
     private float animJump = 1f;
     private bool collCheck = false;
+    bool isFlyPlaying = false;
+    private float _f, _c, _q;
 
     private void Awake()
     {
@@ -40,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Start()
     {
+        fly = audioManager.fly;
         jumpTime = jumpStrength; //initialize jumptime
         jumpTimer = 0f; 
     }
@@ -51,31 +57,32 @@ public class PlayerMovement : MonoBehaviour
 
         crouchAction = playerControls.Player.Crouch;
         crouchAction.Enable();
+        
+        quitAction = playerControls.Player.Quit;
+        quitAction.Enable();
     }
 
     private void OnDisable()
     {
         jumpAction.Disable();
         crouchAction.Disable();
+        quitAction.Disable();
     }
 
     private void Update()
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, groundDistance, groundLayer);
-        jumpPressed = jumpAction.ReadValue<float>() > 0.1f;
-        crouchPressed = crouchAction.ReadValue<float>() > 0.1f;
+        
+        _f = jumpAction.ReadValue<float>();
+        _c = crouchAction.ReadValue<float>();
+        _q = quitAction.ReadValue<float>();
+
+        jumpPressed = _f > 0.1f;
+        crouchPressed = _c > 0.1f;
+        quitPressed = _q > 0.1f;
+
 
         //[JUMPING]
-
-        //anim
-        if (jumpPressed)
-        {
-            Anim("Jump");
-        }
-        else
-        {
-            GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
-        }
 
         if (isGrounded) //resets params if hit ground
         {
@@ -83,33 +90,55 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
             canFly = true;
             //jumpTimer = 0f;
-            if(jumpTimer > 0) 
+            
+            //stamina regen
+            if (jumpTimer > 0.1f)
             {
                 jumpTimer -= Time.deltaTime * 2;
             }
-            else jumpTimer = 0;
         }
-
-
+ 
         if (isGrounded && jumpPressed && !isJumping) //onground and [jump] pressed
         {
             isJumping = true;
+            
             rb.velocity = Vector2.up * jumpForce;
+            //play anim
+            Anim("Jump");
+            // Debug.Log("jump.");
         }
         else if (isJumping && jumpPressed && jumpTimer < jumpTime && canFly) //flies if [jump] is held
         {
+            // Debug.Log("fly!");
             isJumping = true;
             rb.velocity = Vector2.up * jumpForce;
             jumpTimer += Time.deltaTime;
         }
         else if (!jumpPressed && playerLogic.currentStamina <= 0) //stops flying
         {
+            // Debug.Log("fall...");
             isJumping = false;
+            canFly = false;
         }
-
+        
+        switch (rb.velocity.y)
+        {
+            case > 0 when !isFlyPlaying:
+                playFlySFX();
+                // Debug.Log("jump!");
+                isFlyPlaying = true;
+                break;
+            case <= 0 when isFlyPlaying:
+                // Debug.Log("fade...");
+                isFlyPlaying = false;
+                audioManager.startFade();
+                break;
+        }
+        
         //[CROUCHING]
         if (crouchPressed)
         {
+            if(crouchAction.triggered) audioManager.playSound(audioManager.crouch);
             Anim("Crouch");
         }
         
@@ -117,6 +146,8 @@ public class PlayerMovement : MonoBehaviour
         {
             GFX.localScale = new Vector3(GFX.localScale.x, 1f, GFX.localScale.z);
         }
+
+        if (quitPressed) LogicScript.Instance.Pause();
     }
 
     private void Anim(string name) 
@@ -139,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (crouchAction.triggered) //only when pressed and not held
             {
-                rb.velocity = Vector2.down * jumpForce * 3;
+                rb.velocity = Vector2.down * (jumpForce * 3);
             }
             if (isJumping) //go back to normal size if both is pressed
             {
@@ -159,6 +190,12 @@ public class PlayerMovement : MonoBehaviour
                 animJump += Time.deltaTime;
             }
         }
+    }
+
+    public void playFlySFX()
+    {
+        if(audioManager.fadeCoroutine != null) audioManager.StopCoroutine(audioManager.fadeCoroutine);
+        audioManager.playSound(fly);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
