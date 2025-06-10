@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 3241129650749474458}
   - component: {fileID: 7675572755943144016}
   - component: {fileID: 4183663910070272762}
+  - component: {fileID: 7398115440994532160}
   m_Layer: 10
   m_Name: EnergyDrink
   m_TagString: EnergyDrink
@@ -205,3 +206,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   logic: {fileID: 0}
   sr: {fileID: 1863375028576860244}
+  obstacleScript: {fileID: 7398115440994532160}
+--- !u!114 &7398115440994532160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8130314076152021376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc51b210141c21c488bed9f1fb5ae52f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

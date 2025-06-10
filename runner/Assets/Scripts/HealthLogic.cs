@@ -20,17 +20,15 @@ public class HealthLogic : MonoBehaviour
     }
     public void SetMaxHealth(float maxValue)
     {
-        if (healthSlider != null)
-        {
-            healthSlider.maxValue = maxValue;
-            healthSlider.value = maxValue;
-        }
+        healthSlider.maxValue = maxValue;
+        healthSlider.value = maxValue;
     }
 
     private void Update()
     {
-        offset = new Vector3(0, 1f, 0);
-        healthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
+        //offset = new Vector3(0, 1f, 0);
+        //healthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
+        //healthSlider.transform.position = Camera.main.transform.position + offset;
     }
 }
 

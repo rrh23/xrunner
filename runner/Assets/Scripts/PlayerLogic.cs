@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using PrimeTween;
 using UnityEngine;
 
 public class PlayerLogic : MonoBehaviour
@@ -21,6 +23,13 @@ public class PlayerLogic : MonoBehaviour
 
     public float EDRegen;
 
+    public static PlayerLogic instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
@@ -32,16 +41,18 @@ public class PlayerLogic : MonoBehaviour
         stamina.SetMaxStamina(maxStamina);
         health.SetMaxHealth(maxHealth);
 
+
         sr = GetComponentInChildren<SpriteRenderer>();
         rgb = sr.color;
     }
     private void Update()
     {
-        currentStamina = Mathf.Clamp(mov.jumpTime - mov.jumpTimer, 0f, maxStamina);
+        //currentStamina = Mathf.Clamp(mov.jumpTime - mov.jumpTimer, 0f, maxStamina);
+        currentStamina = mov.jumpTime - mov.jumpTimer;
+        stamina.SetStamina(currentStamina);
+
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-        stamina.SetMaxStamina(currentStamina);
-
-
+        
         if (logic.isEDCollected)
         {
             while (EDRegen > 0)
@@ -56,50 +67,37 @@ public class PlayerLogic : MonoBehaviour
     {
         if (other.transform.CompareTag("Spike"))
         {
-            if (currentHealth > 0 && damageCooldown <= 0.1f)
-            {
-                currentHealth -= 1;
-                health.SetHealth(currentHealth,maxHealth);
-                Debug.Log("ugh!" + "(health: " + currentHealth + ")");
-            }
-            else if(currentHealth == 0) logic.GameOver();
-
             if(gameObject.activeSelf) StartCoroutine(Damaged());
         }
     }
 
-    private IEnumerator Damaged()
+    public IEnumerator Damaged()
     {
-        damageCooldown = 1f;
-
-        while (damageCooldown > 0)
+        if (currentHealth > 0 && damageCooldown <= 0.1f)
         {
-            damageCooldown -= Time.deltaTime;
-            sr.color = Color.Lerp(Color.red, rgb, 1 - damageCooldown);
-            yield return null;
+            currentHealth -= 1;
+            health.SetHealth(currentHealth,maxHealth);
+            // Debug.Log("ugh!" + "(health: " + currentHealth + ")");
         }
+        
+        if(currentHealth == 0) logic.GameOver();
 
-        sr.color = rgb;
-        damageCooldown = 0f;
+        if (!gameObject.activeSelf) yield break;
+        damageCooldown = 1;
+        Tween.Color(sr, Color.red, Color.white, 0.3f).OnComplete(() => damageCooldown = 0);
     }
 
-
-    private IEnumerator FlashGreen()
-    {
-        sr.color = Color.green;
-        yield return new WaitForSeconds(0.3f);
-        sr.color = rgb;
-    }
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.transform.CompareTag("EnergyDrink"))
         {
-            StartCoroutine(FlashGreen());
+            // StartCoroutine(FlashGreen());
             currentHealth = maxHealth;
             health.SetHealth(maxHealth, maxHealth);
             logic.currentScore += 10;
             logic.isEDCollected = true;
+            Tween.Color(sr, Color.green, Color.white, 0.8f);
         }
     }
 }

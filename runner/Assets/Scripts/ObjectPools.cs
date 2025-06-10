@@ -45,8 +45,6 @@ public class ObjectPools : MonoBehaviour
         }
     }
 
-
-
     public static ObjectPools Instance;
 
     private void Awake()
@@ -61,21 +59,14 @@ public class ObjectPools : MonoBehaviour
             return null;
         }
 
-        
-
         GameObject objToSpawn = poolDictionary[index].Dequeue();
         objToSpawn.SetActive(true);
         objToSpawn.transform.position = position;
         objToSpawn.transform.rotation = rot;
 
-        IPoolObject pooledObj = objToSpawn.GetComponent<IPoolObject>();
-        if (pooledObj != null)
-        {
-            pooledObj.OnObjectSpawn();
-        }
-
-        poolDictionary[index].Enqueue(objToSpawn);
-
+        ObstacleScript obstacleScript = objToSpawn.GetComponent<ObstacleScript>();
+        obstacleScript?.OnObjectSpawn(poolDictionary[index]);
+        
         return objToSpawn;
     }
 
@@ -89,7 +80,7 @@ public class ObjectPools : MonoBehaviour
 
         int randomIndex = Random.Range(0, poolDictionary.Count - 1);
 
-        prefabID = randomIndex; //saves number to preefabID so other script can recognize
+        prefabID = randomIndex; //saves number to prefabID so other script can recognize
         return SpawnFromPool(randomIndex, position, rotation);
     }
 

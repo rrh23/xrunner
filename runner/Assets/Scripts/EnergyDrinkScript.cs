@@ -7,6 +7,7 @@ public class EnergyDrinkScript : MonoBehaviour
     public LogicScript logic;
     public SpriteRenderer sr;
     private Color rgb;
+    public ObstacleScript obstacleScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,18 +19,21 @@ public class EnergyDrinkScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (logic.isEDCollected)
-        {
-            StartCoroutine(FlashClear());
-            Debug.Log("full health!!");
-        }
+        //if (logic.isEDCollected)
+        //{
+        //    StartCoroutine(FlashClear());
+        //    Debug.Log("full health!!");
+        //}
     }
 
-    private IEnumerator FlashClear()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        sr.color = Color.clear;
-        yield return new WaitForSeconds(6f);
-        sr.color = rgb;
+        if(collision.CompareTag("Player"))
+        {
+            GetComponent<Collider2D>().enabled = false;
+            obstacleScript.Release();
+        }
     }
+    
 }
 

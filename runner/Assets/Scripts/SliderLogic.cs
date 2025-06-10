@@ -10,7 +10,7 @@ public class SliderLogic : MonoBehaviour
     private void Start()
     {
         //stays invisible for 1s because transition
-        StartCoroutine(FlashInvisible());
+        //StartCoroutine(FlashInvisible());
     }
     private IEnumerator FlashInvisible()
     {

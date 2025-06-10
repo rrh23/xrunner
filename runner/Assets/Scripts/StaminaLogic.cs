@@ -17,26 +17,8 @@ public class StaminaLogic : MonoBehaviour
 
     public void SetMaxStamina(float maxValue)
     {
-        if (staminaSlider != null)
-        {
-            staminaSlider.maxValue = maxValue;
-            staminaSlider.value = maxValue;
-        }
-    }
-
-    private void Start()
-    {
-        if (staminaSlider != null) staminaSlider.transform.rotation = Quaternion.Euler(0, 0, 90);
-
-        //resize stamina slider
-        staminaSlider.transform.localScale = new Vector3(0.8f, 1, 1);
-    }
-
-    private void Update()
-    {
-
-        offset = new Vector3(1f, 0f, 0);
-        staminaSlider.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position + offset);
+        staminaSlider.maxValue = maxValue;
+        staminaSlider.value = maxValue;
     }
 }
 

@@ -2,29 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleScript : MonoBehaviour, IPoolObject
+public class ObstacleScript : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
-
-    private void Start()
-    {
-        
-    }
-    public void OnObjectSpawn()
-    {
-        if (gameObject.transform.position.x < -20f)
-        {
-            if (gameObject != null)
-            {
-                Destroy(gameObject);
-            }
-        }
-
-    }
-
-    // Update is called once per frame
+    bool initialized = false;
     void Update()
     {
+        if (!initialized) return;
+        if (gameObject.transform.position.x < -20f)
+        {
+            if (gameObject)
+            {
+                Release();
+            }
+        }
+    }
+
+    private Queue<GameObject> _queue;
+
+
+    public void OnObjectSpawn(Queue<GameObject> queue)
+    {
+        initialized = true;
+        _queue = queue;
+    }
+
+    public void Release()
+    {
+        initialized = false;
+        _queue.Enqueue(gameObject);
+        gameObject.SetActive(false);
     }
 }
