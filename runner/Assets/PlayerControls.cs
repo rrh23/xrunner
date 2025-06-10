@@ -80,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Instant Death"",
+                    ""type"": ""Button"",
+                    ""id"": ""75f18e58-6715-483b-a120-381901ddcc49"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -366,6 +375,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Quit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ea2b557-9446-4e36-ab79-feb548c0f007"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Instant Death"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -979,6 +999,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Quit = m_Player.FindAction("Quit", throwIfNotFound: true);
+        m_Player_InstantDeath = m_Player.FindAction("Instant Death", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1059,6 +1080,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Quit;
+    private readonly InputAction m_Player_InstantDeath;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1069,6 +1091,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Quit => m_Wrapper.m_Player_Quit;
+        public InputAction @InstantDeath => m_Wrapper.m_Player_InstantDeath;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1096,6 +1119,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Quit.started += instance.OnQuit;
             @Quit.performed += instance.OnQuit;
             @Quit.canceled += instance.OnQuit;
+            @InstantDeath.started += instance.OnInstantDeath;
+            @InstantDeath.performed += instance.OnInstantDeath;
+            @InstantDeath.canceled += instance.OnInstantDeath;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1118,6 +1144,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Quit.started -= instance.OnQuit;
             @Quit.performed -= instance.OnQuit;
             @Quit.canceled -= instance.OnQuit;
+            @InstantDeath.started -= instance.OnInstantDeath;
+            @InstantDeath.performed -= instance.OnInstantDeath;
+            @InstantDeath.canceled -= instance.OnInstantDeath;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1314,6 +1343,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnQuit(InputAction.CallbackContext context);
+        void OnInstantDeath(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
