@@ -139,6 +139,7 @@ public class LogicScript : MonoBehaviour
         player.SetActive(false);
         gameOverScreen.SetActive(true);
         audioManager.stopBGM();
+        audioManager.startFade();
         isPlaying = false;
 
         //update highscore
