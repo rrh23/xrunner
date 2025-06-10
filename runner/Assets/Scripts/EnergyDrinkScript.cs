@@ -19,7 +19,6 @@ public class EnergyDrinkScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (logic.isEDCollected)
         //{
         //    StartCoroutine(FlashClear());
         //    Debug.Log("full health!!");

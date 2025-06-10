@@ -12,7 +12,8 @@ public class PlayerLogic : MonoBehaviour
     public StaminaLogic stamina;
     public AudioManager am;
     public PlayerMovement mov;
-    public SpriteRenderer sr;
+    public SpriteRenderer sr, edsr;
+    public GameObject energyDrink;
 
     private float damageCooldown = 0f;
     private Color rgb;
@@ -62,6 +63,9 @@ public class PlayerLogic : MonoBehaviour
             }
             if(EDRegen <= 0) logic.isEDCollected = false;
         }
+        
+        energyDrink = GameObject.FindGameObjectWithTag("EnergyDrink");
+        if(energyDrink && energyDrink.activeSelf) edsr = GameObject.FindGameObjectWithTag("EnergyDrink").GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -77,7 +81,6 @@ public class PlayerLogic : MonoBehaviour
         
         if (currentHealth > 0 && damageCooldown <= 0.1f)
         {
-            
             currentHealth -= 1;
             health.SetHealth(currentHealth,maxHealth);
             // Debug.Log("ugh!" + "(health: " + currentHealth + ")");
@@ -102,6 +105,7 @@ public class PlayerLogic : MonoBehaviour
         if (other.transform.CompareTag("EnergyDrink"))
         {
             // StartCoroutine(FlashGreen());
+            Tween.Color(edsr, Color.clear, Color.white, 5f);
             currentHealth = maxHealth;
             health.SetHealth(maxHealth, maxHealth);
             logic.currentScore += 10;

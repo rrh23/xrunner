@@ -441,7 +441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8584906, g: 0.6683084, b: 0.23082057, a: 1}
+  m_Color: {r: 0.44670084, g: 0.9843137, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1257,6 +1257,8 @@ MonoBehaviour:
   am: {fileID: 2036275079}
   mov: {fileID: 375468356}
   sr: {fileID: 1186167849}
+  edsr: {fileID: 0}
+  energyDrink: {fileID: 0}
   currentStamina: 0
   maxStamina: 100
   currentHealth: 0
