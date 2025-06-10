@@ -11,6 +11,7 @@ public class LogicScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI score;
     [SerializeField] public TextMeshProUGUI gameOverScore;
     [SerializeField] public TextMeshProUGUI gameOverHighscore;
+    
     //public int playerScore;
     //public TMP_Text text;
     public GameObject player;

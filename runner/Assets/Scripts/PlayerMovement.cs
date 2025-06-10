@@ -92,10 +92,11 @@ public class PlayerMovement : MonoBehaviour
             //jumpTimer = 0f;
             
             //stamina regen
-            if (jumpTimer > 0.1f)
+            if (jumpTimer > 0f)
             {
                 jumpTimer -= Time.deltaTime * 2;
             }
+            else jumpTimer = 0;
         }
  
         if (isGrounded && jumpPressed && !isJumping) //onground and [jump] pressed
