@@ -72,6 +72,12 @@ public class AudioManager : MonoBehaviour
 
         if (!soundName) return;
     }
+
+    public void playOnce(AudioClip audioClip)
+    {
+        SFXSource.clip = audioClip;
+        SFXSource.Play();
+    }
     
     public void stopBGM()
     {
