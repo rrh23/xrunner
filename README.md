@@ -1,1 +1,1 @@
-endless runner game for my homework
+XRUNNER is a classic pixel art infinite runner game with futuristic elements.
