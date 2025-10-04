@@ -10,9 +10,9 @@ public class PlayerLogic : MonoBehaviour
     public SliderLogic slider;
     public HealthLogic health;
     public StaminaLogic stamina;
-    private AudioManager am;
-    private PlayerMovement mov;
-    private SpriteRenderer sr, edsr;
+    public AudioManager am;
+    public PlayerMovement mov;
+    public SpriteRenderer sr, edsr;
     public GameObject energyDrink;
 
     private float damageCooldown = 0f;
@@ -44,7 +44,7 @@ public class PlayerLogic : MonoBehaviour
         stamina.SetMaxStamina(maxStamina);
         health.SetMaxHealth(maxHealth);
 
-
+        am = FindAnyObjectByType<AudioManager>();
         sr = GetComponentInChildren<SpriteRenderer>();
         rgb = sr.color;
     }
@@ -76,9 +76,16 @@ public class PlayerLogic : MonoBehaviour
             // if(gameObject.activeSelf) 
             StartCoroutine(Damaged());
         }
+
+        if (other.transform.CompareTag("Obstacle"))
+        {
+            var normal = other.GetContact(0).normal;
+            var safeSurface = Mathf.Abs(Vector2.Dot(Vector2.up, normal)) > 0.71f;
+            if (!safeSurface) StartCoroutine(Damaged());
+        }
     }
 
-    public IEnumerator Damaged()
+    private IEnumerator Damaged()
     {
         
         if (currentHealth > 0 && damageCooldown <= 0.1f)
@@ -90,13 +97,13 @@ public class PlayerLogic : MonoBehaviour
 
         if (currentHealth == 0)
         {
-            am.playSound(am.death);
+            am.playOnce(am.death);
             logic.GameOver();
         }
 
         if (!gameObject.activeSelf) yield break;
         
-        am.playSound(am.hurt);
+        am.playOnce(am.hurt);
         damageCooldown = 1;
         Tween.Color(sr, Color.red, Color.white, 0.3f).OnComplete(() => damageCooldown = 0);
     }
