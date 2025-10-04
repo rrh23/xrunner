@@ -10,9 +10,9 @@ public class PlayerLogic : MonoBehaviour
     public SliderLogic slider;
     public HealthLogic health;
     public StaminaLogic stamina;
-    public AudioManager am;
-    public PlayerMovement mov;
-    public SpriteRenderer sr, edsr;
+    private AudioManager am;
+    private PlayerMovement mov;
+    private SpriteRenderer sr, edsr;
     public GameObject energyDrink;
 
     private float damageCooldown = 0f;
@@ -35,7 +35,8 @@ public class PlayerLogic : MonoBehaviour
     private void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
-
+        mov = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        
         EDRegen = 5f;
         maxStamina = mov.jumpTime;
         currentStamina = maxStamina;
@@ -72,7 +73,8 @@ public class PlayerLogic : MonoBehaviour
     {
         if (other.transform.CompareTag("Spike"))
         {
-            if(gameObject.activeSelf) StartCoroutine(Damaged());
+            // if(gameObject.activeSelf) 
+            StartCoroutine(Damaged());
         }
     }
 

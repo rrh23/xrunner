@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D playerRigidbody;
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] public Transform feetPos;
@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = true;
             
-            rb.velocity = Vector2.up * jumpForce;
+            playerRigidbody.linearVelocity = Vector2.up * jumpForce;
             //play anim
             Anim("Jump");
             // Debug.Log("jump.");
@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Debug.Log("fly!");
             isJumping = true;
-            rb.velocity = Vector2.up * jumpForce;
+            playerRigidbody.linearVelocity = Vector2.up * jumpForce;
             jumpTimer += Time.deltaTime;
         }
         else if (!jumpPressed && playerLogic.currentStamina <= 0) //stops flying
@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
             canFly = false;
         }
         
-        switch (rb.velocity.y)
+        switch (playerRigidbody.linearVelocity.y)
         {
             case > 0 when !isFlyPlaying:
                 playFlySFX();
@@ -171,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (crouchAction.triggered) //only when pressed and not held
             {
-                rb.velocity = Vector2.down * (jumpForce * 3);
+                playerRigidbody.linearVelocity = Vector2.down * (jumpForce * 3);
             }
             if (isJumping) //go back to normal size if both is pressed
             {

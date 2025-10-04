@@ -101,6 +101,6 @@ public class Spawner : MonoBehaviour
             }
         }
         obstacleRB = obstacleToSpawn.GetComponent<Rigidbody2D>();
-        obstacleRB.velocity = Vector2.left * obstacleSpeed;
+        obstacleRB.linearVelocity = Vector2.left * obstacleSpeed;
     }
 }
