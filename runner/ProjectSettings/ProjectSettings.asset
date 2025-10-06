@@ -293,10 +293,15 @@ PlayerSettings:
   androidSymbolsSizeThreshold: 800
   m_BuildTargetIcons: []
   m_BuildTargetPlatformIcons: []
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs: []
-  m_BuildTargetGraphicsJobMode: []
+  m_BuildTargetGraphicsJobMode:
+  - m_BuildTarget: WindowsStandaloneSupport
+    m_GraphicsJobMode: 0
   m_BuildTargetGraphicsAPIs:
   - m_BuildTarget: WindowsStandaloneSupport
     m_APIs: 0200000012000000
@@ -590,7 +595,7 @@ PlayerSettings:
     Standalone: 1
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration:
-    Standalone: 1
+    Standalone: 0
   il2cppStacktraceInformation: {}
   managedStrippingLevel:
     EmbeddedLinux: 1
@@ -695,7 +700,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 2
+  activeInputHandler: 1
   windowsGamepadBackendHint: 0
   cloudProjectId: 21d64f47-d68a-4f65-840c-55a00a738eb5
   framebufferDepthMemorylessMode: 0
